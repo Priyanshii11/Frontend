@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI-Powered Dynamic Theme Switcher</title>
+  <style>
+    /* Base styles */
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: background 0.5s ease, color 0.5s ease, font-family 0.5s ease;
+      background-color: #121212; /* Dark background for the main page */
+      color: #fff;
+      overflow: hidden;
+    }
+
+    /* Menu Bar Styles */
+    .menu-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(10px); /* Glassmorphic menu */
+      padding: 15px;
+      text-align: center;
+      font-size: 1.2em;
+      z-index: 1000;
+    }
+
+    .menu-bar a {
+      color: #fff;
+      margin: 0 15px;
+      text-decoration: none;
+      font-family: 'Arial', sans-serif;
+      transition: color 0.3s ease;
+    }
+
+    .menu-bar a:hover {
+      color: #4CAF50;
+    }
+
+    .container {
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(15px); /* Glassmorphism effect */
+      background-color: rgba(0, 0, 0, 0.4); /* Dark frosted look */
+      text-align: center;
+      width: 80%; /* Adjust the container width */
+      max-width: 500px; /* Limit the max width */
+    }
+
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+      transition: color 0.5s ease;
+      color: #fff;
+    }
+
+    input, button {
+      padding: 12px;
+      margin-top: 10px;
+      font-size: 1.2em;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease, color 0.3s ease;
+      width: 100%; /* Make input and button full width */
+      backdrop-filter: blur(10px); /* Glass effect for input and button */
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
+      font-size: 1.1em;
+      margin-top: 15px;
+    }
+
+    input {
+      background-color: #fff; /* White background for the input */
+      color: #333; /* Dark text color for better readability */
+      margin-bottom: 15px;
+    }
+
+    /* Nature Theme - Light Glassmorphism */
+    .nature {
+      background-color: rgba(241, 248, 233, 0.6); /* Light, semi-transparent color */
+      color: #2E3B2D; /* Dark contrasting color for text */
+      background-image: url('https://i.pinimg.com/originals/83/4d/72/834d72ef32d84b400266a4aa6661ff31.gif');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      font-family: 'Georgia', serif;
+    }
+
+    .nature .container {
+      backdrop-filter: blur(15px); /* Frosted glass effect */
+      background-color: rgba(255, 255, 255, 0.5); /* Light pastel background for input box */
+    }
+
+    /* Retro Theme - Pastel Glassmorphism */
+    .retro {
+      background-color: #F0E6B5;
+      color: #FF6347;
+      background-image: url('https://mir-s3-cdn-cf.behance.net/project_modules/disp/a8c10022509671.56313d7594ec9.gif');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      font-family: 'Courier New', Courier, monospace;
+    }
+
+    .retro .container {
+      backdrop-filter: blur(10px); /* Light pastel glass effect */
+      background-color: rgba(255, 255, 255, 0.4); /* Pastel frosted glass effect */
+    }
+
+    /* Cyberpunk Theme - Dark Glassmorphism */
+    .cyberpunk {
+      background-color: #0F0F0F;
+      color: #00FFCC;
+      background-image: url('https://www.w3schools.com/w3images/cyberpunk.jpg');
+      background-size: cover;
+      font-family: 'Roboto', sans-serif;
+    }
+
+    .cyberpunk .container {
+      backdrop-filter: blur(15px); /* Dark frosted glass effect */
+      background-color: rgba(0, 0, 0, 0.6); /* Dark glass effect */
+    }
+
+    /* Minimal Theme - Simple Glassmorphism */
+    .minimal {
+      background-color: #F5F5F5;
+      color: #333333;
+      background-image: none;
+      font-family: 'Helvetica', sans-serif;
+    }
+
+    .minimal .container {
+      backdrop-filter: blur(10px); /* Simple frosted glass effect */
+      background-color: rgba(255, 255, 255, 0.3); /* Light pastel frosted glass effect */
+    }
+
+    /* Solar Theme - Starry Night Glassmorphism */
+    .solar {
+      background-color: #121212;
+      color: #fff;
+      background-image: url('https://www.designideas.pics/wp-content/uploads/2015/08/giphy-1.gif');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      font-family: 'Georgia', serif;
+    }
+
+    .solar .container {
+      backdrop-filter: blur(15px); /* Glass effect */
+      background-color: rgba(0, 0, 0, 0.6); /* Dark frosted look */
+    }
+
+  </style>
+</head>
+<body>
+  <!-- Menu Bar -->
+  <div class="menu-bar">
+    <a href="javascript:void(0);" onclick="changeTheme('nature')">Nature</a>
+    <a href="javascript:void(0);" onclick="changeTheme('retro')">Retro</a>
+    <a href="javascript:void(0);" onclick="changeTheme('cyberpunk')">Cyberpunk</a>
+    <a href="javascript:void(0);" onclick="changeTheme('minimal')">Minimal</a>
+    <a href="javascript:void(0);" onclick="changeTheme('solar')">Solar</a>
+  </div>
+
+  <!-- Main Content -->
+  <div class="container">
+    <h1>AI-Powered Theme Switcher</h1>
+    <input type="text" id="themeInput" placeholder="Type a theme: 'nature', 'retro', 'cyberpunk', 'minimal', 'solar'" oninput="detectTheme()">
+  </div>
+
+  <script>
+    // Function to dynamically change theme based on user input (AI-like behavior)
+    function detectTheme() {
+      const themeInput = document.getElementById("themeInput").value.toLowerCase();
+      const body = document.body;
+
+      // Remove any previously applied themes
+      body.classList.remove("nature", "retro", "cyberpunk", "minimal", "solar");
+
+      // Detect the theme based on user input
+      if (themeInput.includes("nature")) {
+        body.classList.add("nature");
+      } else if (themeInput.includes("retro")) {
+        body.classList.add("retro");
+      } else if (themeInput.includes("cyberpunk")) {
+        body.classList.add("cyberpunk");
+      } else if (themeInput.includes("minimal")) {
+        body.classList.add("minimal");
+      } else if (themeInput.includes("solar")) {
+        body.classList.add("solar");
+      }
+    }
+  </script>
+</body>
+</html>
